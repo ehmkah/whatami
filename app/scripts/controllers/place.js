@@ -14,4 +14,14 @@ angular.module('whatamiApp')
       'AngularJS',
       'Karma'
     ];
+
+    $scope.checkOfflineStorage = function() {
+      if(Modernizr.applicationcache) {
+        $scope.isAvailable = true;
+      } else {
+        $scope.isAvailable = false;
+      }
+    };
+
+
   });
