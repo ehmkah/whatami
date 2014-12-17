@@ -23,5 +23,14 @@ angular.module('whatamiApp')
       }
     };
 
+    $scope.storeIt = function() {
+      if (localStorage.places === undefined) {
+        localStorage.setItem('places', JSON.stringify([]));
+      }
+      var places = JSON.parse(localStorage.places);
+      places.push('eins');
+      localStorage.setItem('places', JSON.stringify(places));
+    };
+
 
   });

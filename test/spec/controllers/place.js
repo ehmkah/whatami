@@ -16,6 +16,10 @@ describe('Controller: PlaceCtrl', function () {
     });
   }));
 
+  afterEach(function() {
+  localStorage.clear();
+  });
+
   it('should attach a list of awesomeThings to the scope', function () {
     expect(scope.awesomeThings.length).toBe(3);
   });
@@ -24,5 +28,18 @@ describe('Controller: PlaceCtrl', function () {
     scope.checkOfflineStorage();
     expect(scope.isAvailable).toBe(true);
   });
+
+  it('should add a value to location storage', function() {
+    scope.storeIt();
+    expect(JSON.parse(localStorage.places)).toEqual(['eins']);
+  });
+
+  it('should add two value to location storage', function() {
+    scope.storeIt();
+    scope.storeIt();
+    expect(JSON.parse(localStorage.places)).toEqual(['eins', 'eins']);
+  });
+
+
 
 });
