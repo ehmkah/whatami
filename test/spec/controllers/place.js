@@ -40,6 +40,17 @@ describe('Controller: PlaceCtrl', function () {
     expect(JSON.parse(localStorage.places)).toEqual(['eins', 'eins']);
   });
 
+  it('should clean localstorage', function() {
+    localStorage.setItem('places', 'huhu');
+    scope.clean();
+    expect(localStorage.places).not.toBeDefined();
+  });
+
+  it('should getgeolocation', function() {
+    scope.giveMeThePosition();
+    expect(scope.currentPosition).toEqual('67');
+  });
+
 
 
 });

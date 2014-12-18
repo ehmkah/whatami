@@ -32,5 +32,15 @@ angular.module('whatamiApp')
       localStorage.setItem('places', JSON.stringify(places));
     };
 
+    $scope.giveMeThePosition = function() {
+      navigator.geolocation.getCurrentPosition(function(position) {
+        $scope.currentPosition = position.coords;
+      });
+    };
+
+    $scope.clean = function() {
+      localStorage.removeItem('places');
+    };
+
 
   });
