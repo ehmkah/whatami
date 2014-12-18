@@ -42,5 +42,8 @@ angular.module('whatamiApp')
       localStorage.removeItem('places');
     };
 
+    $scope.showAll = function() {
+      $scope.positions = JSON.parse(localStorage.places);
+    };
 
   });
