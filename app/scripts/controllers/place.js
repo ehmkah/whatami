@@ -24,17 +24,21 @@ angular.module('whatamiApp')
     };
 
     $scope.storeIt = function() {
-      if (localStorage.places === undefined) {
-        localStorage.setItem('places', JSON.stringify([]));
+      if ($scope.currentPosition === undefined) {
+      } else {
+        if (localStorage.places === undefined) {
+          localStorage.setItem('places', JSON.stringify([]));
+        }
+        var places = JSON.parse(localStorage.places);
+        places.push($scope.currentPosition);
+        localStorage.setItem('places', JSON.stringify(places));
+        $scope.currentPosition = undefined;
       }
-      var places = JSON.parse(localStorage.places);
-      places.push('eins');
-      localStorage.setItem('places', JSON.stringify(places));
     };
 
     $scope.giveMeThePosition = function() {
       navigator.geolocation.getCurrentPosition(function(position) {
-        $scope.currentPosition = position.coords;
+        $scope.currentPosition = position;
       });
     };
 
