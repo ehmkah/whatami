@@ -30,14 +30,17 @@ describe('Controller: PlaceCtrl', function () {
   });
 
   it('should add a value to location storage', function() {
+    scope.currentPosition = 'eins';
     scope.storeIt();
     expect(JSON.parse(localStorage.places)).toEqual(['eins']);
   });
 
   it('should add two value to location storage', function() {
+    scope.currentPosition = 'eins';
     scope.storeIt();
+    scope.currentPosition = 'zwei';
     scope.storeIt();
-    expect(JSON.parse(localStorage.places)).toEqual(['eins', 'eins']);
+    expect(JSON.parse(localStorage.places)).toEqual(['eins', 'zwei']);
   });
 
   it('should clean localstorage', function() {
