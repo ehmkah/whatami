@@ -1,0 +1,9 @@
+== whatami
+
+This is a small example for using angularjs. Does this application does something useful anyway?
+
+Yes. Whatami allows you to track each day where you wake up. You can visualize your collected data.
+
+You can see a running demo here http://www.m-krausse.de/whatami
+
+I am always open for any suggestions, feature requests and bug reports.
