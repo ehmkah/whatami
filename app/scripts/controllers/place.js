@@ -17,9 +17,9 @@ angular.module('whatamiApp')
 
     $scope.checkOfflineStorage = function() {
       if(Modernizr.applicationcache) {
-        $scope.isAvailable = true;
+      //  $scope.isGeolocating = true;
       } else {
-        $scope.isAvailable = false;
+      //  $scope.isGeolocating = false;
       }
     };
 
@@ -37,11 +37,17 @@ angular.module('whatamiApp')
     };
 
     $scope.giveMeThePosition = function() {
+      $scope.isGeolocating = true;
       navigator.geolocation.getCurrentPosition(
       function(position) {
+        $scope.isGeolocating = false;
         $scope.currentPosition = position;
+        $scope.storeIt();
+        $scope.$apply();
       },
       function (error) {
+       $scope.isGeolocating = false;
+        $scope.$apply();
           switch(error.code) {
               case error.PERMISSION_DENIED:
                   console.log("User denied the request for Geolocation.");
@@ -63,6 +69,7 @@ angular.module('whatamiApp')
 
     $scope.clean = function() {
       localStorage.removeItem('places');
+      $scope.positions = null;
     };
 
     $scope.showAll = function() {

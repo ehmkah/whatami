@@ -26,7 +26,7 @@ describe('Controller: PlaceCtrl', function () {
 
   it('should check whether offline cache is available', function() {
     scope.checkOfflineStorage();
-    expect(scope.isAvailable).toBe(true);
+    expect(scope.isGeolocating).toBe(true);
   });
 
   it('should add a value to location storage', function() {
@@ -43,17 +43,12 @@ describe('Controller: PlaceCtrl', function () {
     expect(JSON.parse(localStorage.places)).toEqual(['eins', 'zwei']);
   });
 
+
   it('should clean localstorage', function() {
     localStorage.setItem('places', 'huhu');
     scope.clean();
     expect(localStorage.places).not.toBeDefined();
+    expect(scope.positions).toBe(null);
   });
-
-  it('should getgeolocation', function() {
-    scope.giveMeThePosition();
-    expect(scope.currentPosition).toEqual('67');
-  });
-
-
 
 });

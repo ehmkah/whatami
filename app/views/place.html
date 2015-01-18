@@ -1,14 +1,8 @@
-<p>This is the place view.</p>
+-
+<a href="" class="link" ng-click="giveMeThePosition()">Locate Me</a> -
+<a href="" class="link" ng-click="showAll()">Dump locations</a> -
+<a href="" class="link" ng-click="clean()">Clean locations</a> -
 
-<a href="" ng-click="checkOfflineStorage()">klicken</a>
-<a href="" ng-click="storeIt()">speichern</a>
-<a href="" ng-click="giveMeThePosition()">Locate Me</a>
-<a href="" ng-click="clean()">Clean</a>
-<a href="" ng-click="showAll()">Show All</a>
-
-<div>Current Position which will be saved: {{currentPosition}}</div>
-
-<img ng-hide="isAvailable" src="images/red-dot.png"/>
-<img ng-show="isAvailable"  src="images/green-dot.png"/>
-
+<img ng-show="isGeolocating" src="images/red-dot.png"/>
+<img ng-hide="isGeolocating" src="images/green-dot.png"/>
 {{positions}}
