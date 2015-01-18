@@ -30,11 +30,24 @@ angular.module('whatamiApp')
           localStorage.setItem('places', JSON.stringify([]));
         }
         var places = JSON.parse(localStorage.places);
-        places.push($scope.currentPosition);
+        var item = $scope.createItem($scope.currentPosition);
+        places.push(item);
         localStorage.setItem('places', JSON.stringify(places));
         $scope.currentPosition = undefined;
       }
     };
+
+    $scope.createItem = function(position) {
+      var result = new Object();
+      result.coords = new Object();
+      result.coords.latitude = position.coords.latitude;
+      result.coords.longitude = position.coords.longitude;
+      result.timestamp = position.timestamp;
+      result.accuracy = position.accuracy;
+
+      return result;
+    };
+
 
     $scope.giveMeThePosition = function() {
       $scope.isGeolocating = true;
