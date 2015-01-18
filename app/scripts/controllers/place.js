@@ -43,7 +43,7 @@ angular.module('whatamiApp')
       result.coords.latitude = position.coords.latitude;
       result.coords.longitude = position.coords.longitude;
       result.timestamp = position.timestamp;
-      result.accuracy = position.accuracy;
+      result.coords.accuracy = position.coords.accuracy;
 
       return result;
     };
