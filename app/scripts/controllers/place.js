@@ -95,7 +95,13 @@ angular.module('whatamiApp')
     return [];
     }
     var result = [];
-    return [{longitude: 7,
-              latitude:47, counter: positions.length}];
+    var latitude =0;
+    var longitude =0;
+    positions.forEach(function(position) {
+      latitude = Math.floor(position.coords.latitude);
+      longitude = Math.floor(position.coords.longitude);
+    });
+    result.push({longitude: longitude, latitude:latitude, counter: positions.length});
+    return result;
     };
   });
