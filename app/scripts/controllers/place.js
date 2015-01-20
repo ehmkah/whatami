@@ -91,6 +91,11 @@ angular.module('whatamiApp')
     };
 
    $scope.cluster = function(positions) {
+    if (positions.length=== 0) {
     return [];
-   };
+    }
+    var result = [];
+    return [{longitude: 7,
+              latitude:47, counter: positions.length}];
+    };
   });

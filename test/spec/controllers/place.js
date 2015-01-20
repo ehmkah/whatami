@@ -54,4 +54,19 @@ describe('Controller: PlaceCtrl', function () {
     expect(scope.cluster([])).toEqual([]);
   });
 
+
+  it('should return empty cluster with one entry', function() {
+    expect(scope.cluster([
+      {"timestamp":1421607999536,"coords":{"speed":null,"heading":null,"altitudeAccuracy":null,"accuracy":20,"altitude":null,"longitude":7.439919799999999,"latitude":46.9374629}}
+      ])).toEqual([{latitude: 47, longitude: 7, counter: 1}]);
+  });
+
+
+  it('should return empty cluster with two entry', function() {
+    expect(scope.cluster([
+      {"timestamp":1421607999536,"coords":{"speed":null,"heading":null,"altitudeAccuracy":null,"accuracy":20,"altitude":null,"longitude":7.439919799999999,"latitude":46.9374629}},
+      {"timestamp":1421607999536,"coords":{"speed":null,"heading":null,"altitudeAccuracy":null,"accuracy":20,"altitude":null,"longitude":7.439919799999999,"latitude":46.9374629}}
+      ])).toEqual([{latitude: 47, longitude: 7, counter: 2}]);
+  });
+
 });
