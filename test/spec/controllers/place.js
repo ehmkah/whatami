@@ -57,16 +57,53 @@ describe('Controller: PlaceCtrl', function () {
 
   it('should return empty cluster with one entry', function() {
     expect(scope.cluster([
-      {"timestamp":1421607999536,"coords":{"speed":null,"heading":null,"altitudeAccuracy":null,"accuracy":20,"altitude":null,"longitude":7.439919799999999,"latitude":46.9374629}}
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":46.9374629}}
       ])).toEqual([{latitude: 46, longitude: 7, counter: 1}]);
   });
 
-
   it('should return empty cluster with two entry', function() {
     expect(scope.cluster([
-      {"timestamp":1421607999536,"coords":{"speed":null,"heading":null,"altitudeAccuracy":null,"accuracy":20,"altitude":null,"longitude":7.439919799999999,"latitude":46.9374629}},
-      {"timestamp":1421607999536,"coords":{"speed":null,"heading":null,"altitudeAccuracy":null,"accuracy":20,"altitude":null,"longitude":7.439919799999999,"latitude":46.9374629}}
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":46.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":46.9374629}}
       ])).toEqual([{latitude: 46, longitude: 7, counter: 2}]);
   });
 
+  it('should return empty cluster with two different entries', function() {
+    expect(scope.cluster([
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":46.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":47.9374629}}
+      ])).toEqual([
+        {latitude: 46, longitude: 7, counter: 1},
+        {latitude: 47, longitude: 7, counter: 1}]);
+  });
+
+
+  it('should return empty cluster with two different entries but one with two counter', function() {
+    expect(scope.cluster([
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":46.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":47.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":47.9374629}}
+      ])).toEqual([
+        {latitude: 46, longitude: 7, counter: 1},
+        {latitude: 47, longitude: 7, counter: 2}]);
+  });
+
+  it('should calculate complexe example', function() {
+    expect(scope.cluster([
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":46.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":47.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":47.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":8.439919799999999,"latitude":47.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":8.439919799999999,"latitude":-47.9374629}},
+      {"timestamp":1421607999536,"coords":{"accuracy":20,"longitude":7.439919799999999,"latitude":47.9374629}},
+      ])).toEqual([
+        {latitude: 46, longitude: 7, counter: 1},
+        {latitude: 47, longitude: 7, counter: 3},
+        {latitude: 47, longitude: 8, counter: 1},
+        {latitude: -48, longitude: 8, counter: 1}
+
+        ]);
+  });
+
 });
+

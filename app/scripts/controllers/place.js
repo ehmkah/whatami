@@ -100,8 +100,17 @@ angular.module('whatamiApp')
     positions.forEach(function(position) {
       latitude = Math.floor(position.coords.latitude);
       longitude = Math.floor(position.coords.longitude);
+      var foundResultEntry = null;
+      result.forEach(function(resultEntry){
+          if (resultEntry.latitude === latitude && resultEntry.longitude === longitude) {
+            foundResultEntry = resultEntry;
+            foundResultEntry.counter = foundResultEntry.counter +1;
+          }
+      });
+      if (foundResultEntry === null) {
+        result.push({latitude:latitude, longitude: longitude, counter: 1});
+      };
     });
-    result.push({longitude: longitude, latitude:latitude, counter: positions.length});
     return result;
     };
   });
