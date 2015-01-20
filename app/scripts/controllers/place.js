@@ -75,7 +75,8 @@ angular.module('whatamiApp')
                   console.log("An unknown error occurred.");
                   break;
           }
-      }
+      },
+      {enableHighAccuracy: true}
 
       );
     };
