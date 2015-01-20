@@ -43,12 +43,15 @@ describe('Controller: PlaceCtrl', function () {
     expect(JSON.parse(localStorage.places)).toEqual(['eins', 'zwei']);
   });
 
-
   it('should clean localstorage', function() {
     localStorage.setItem('places', 'huhu');
     scope.clean();
     expect(localStorage.places).not.toBeDefined();
     expect(scope.positions).toBe(null);
+  });
+
+  it('should return empty cluster', function() {
+    expect(scope.cluster([])).toEqual([]);
   });
 
 });

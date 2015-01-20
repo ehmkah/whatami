@@ -90,4 +90,7 @@ angular.module('whatamiApp')
       $scope.positions = JSON.parse(localStorage.places);
     };
 
+   $scope.cluster = function(positions) {
+    return [];
+   };
   });
