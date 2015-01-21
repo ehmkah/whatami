@@ -7,6 +7,7 @@
  * # simpleLineChart
  */
 angular.module('whatamiApp')
+
   .directive('simpleLineChart', ['d3Service', function(d3Service) {
       return {
         restrict: 'EA',
