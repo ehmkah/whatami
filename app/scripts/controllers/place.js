@@ -102,7 +102,9 @@ angular.module('whatamiApp')
 
       var theData = $scope.cluster(JSON.parse(localStorage.places));
 
-      var vis = d3.select('#chart').append('svg:svg')
+      d3.select("svg").remove()
+      var vis = d3.select('#chart')
+                  .append('svg:svg')
                   .data([theData]).attr("width", w)
                   .attr("height", h)
                   .append("svg:g")
@@ -132,7 +134,7 @@ angular.module('whatamiApp')
       			  d.outerRadius = r;
               return "translate(" + arc.centroid(d) + ")";})
             .attr("text-anchor", "middle").text(function(d, i) {
-                return '' + theData[i].latitude + ',' + theData[i].longitude;
+                return '' + theData[i].latitude + ',' + theData[i].longitude + ',' + theData[i].counter;
            });
     };
 
