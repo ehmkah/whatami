@@ -95,14 +95,14 @@ angular.module('whatamiApp')
     };
 
     $scope.display = function() {
+      d3.select("svg").remove();
+
       var w = 400;
       var h = 400;
       var r = h/2;
       var color = d3.scale.category20c();
 
       var theData = $scope.cluster(JSON.parse(localStorage.places));
-
-      d3.select("svg").remove()
       var vis = d3.select('#chart')
                   .append('svg:svg')
                   .data([theData]).attr("width", w)
@@ -137,6 +137,35 @@ angular.module('whatamiApp')
                 return '' + theData[i].latitude + ',' + theData[i].longitude + ',' + theData[i].counter;
            });
     };
+
+  $scope.displayCircles = function() {
+ d3.select("svg").remove();
+
+      var w = 400;
+      var h = 400;
+      var r = h/2;
+      var color = d3.scale.category20c();
+
+      var theData = [
+        {latitude:50, longitude:7, counter: 14},
+        {latitude:47, longitude:7, counter: 4}
+      ]
+
+      var svgContainer = d3.select("#chart").append("svg")
+                                     .attr("width", w)
+                                     .attr("height", h);
+
+      var circles = svgContainer.selectAll("circle")
+                                 .data(theData)
+                                 .enter()
+                                .append("circle");
+
+      var circleAttributes = circles
+                             .attr("cx", function (d) { return d.latitude; })
+                             .attr("cy", function (d) { return d.longitude; })
+                             .attr("r",  function (d) { return d.counter;});
+  };
+
 
    $scope.cluster = function(positions) {
     if (positions.length=== 0) {
