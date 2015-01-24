@@ -141,19 +141,19 @@ angular.module('whatamiApp')
   $scope.displayCircles = function() {
  d3.select("svg").remove();
 
-      var w = 400;
-      var h = 400;
-      var r = h/2;
-      var color = d3.scale.category20c();
+      var w = 100;
+      var h = 100;
 
       var theData = [
-        {latitude:50, longitude:7, counter: 14},
-        {latitude:47, longitude:7, counter: 4}
+        {latitude:50, longitude:7, counter: 14, percentage: 3.6},
+        {latitude:47, longitude:7, counter: 4, percentage: 1.05},
+        {latitude:40, longitude:9, counter: 20, percentage: 5.26}
       ]
 
       var svgContainer = d3.select("#chart").append("svg")
                                      .attr("width", w)
-                                     .attr("height", h);
+                                     .attr("height", h)
+                                     .style("border", "1px solid black");
 
       var circles = svgContainer.selectAll("circle")
                                  .data(theData)
@@ -161,9 +161,9 @@ angular.module('whatamiApp')
                                 .append("circle");
 
       var circleAttributes = circles
-                             .attr("cx", function (d) { return d.latitude; })
-                             .attr("cy", function (d) { return d.longitude; })
-                             .attr("r",  function (d) { return d.counter;});
+                             .attr("cx", function (d) { return (d.longitude - 4) * 10; })
+                             .attr("cy", function (d) { return (-1 * ( (d.latitude - 25) * 3.333)) + 100; })
+                             .attr("r",  function (d) { return d.percentage;});
   };
 
 
