@@ -15,15 +15,15 @@ angular.module('whatamiApp')
       'Karma'
     ];
 
-    $scope.checkOfflineStorage = function() {
-      if(Modernizr.applicationcache) {
-      //  $scope.isGeolocating = true;
+    $scope.checkOfflineStorage = function () {
+      if (Modernizr.applicationcache) {
+        //  $scope.isGeolocating = true;
       } else {
-      //  $scope.isGeolocating = false;
+        //  $scope.isGeolocating = false;
       }
     };
 
-    $scope.storeIt = function() {
+    $scope.storeIt = function () {
       if ($scope.currentPosition === undefined) {
       } else {
         if (localStorage.places === undefined) {
@@ -37,7 +37,7 @@ angular.module('whatamiApp')
       }
     };
 
-    $scope.createItem = function(position) {
+    $scope.createItem = function (position) {
       var result = new Object();
       result.coords = new Object();
       result.coords.latitude = position.coords.latitude;
@@ -49,149 +49,154 @@ angular.module('whatamiApp')
     };
 
 
-    $scope.giveMeThePosition = function() {
+    $scope.giveMeThePosition = function () {
       $scope.isGeolocating = true;
       navigator.geolocation.getCurrentPosition(
-      function(position) {
-        $scope.isGeolocating = false;
-        $scope.currentPosition = position;
-        $scope.storeIt();
-        $scope.$apply();
-      },
-      function (error) {
-       $scope.isGeolocating = false;
-        $scope.$apply();
-          switch(error.code) {
-              case error.PERMISSION_DENIED:
-                  console.log("User denied the request for Geolocation.");
-                  break;
-              case error.POSITION_UNAVAILABLE:
-                  console.log("Location information is unavailable.");
-                  break;
-              case error.TIMEOUT:
-                  console.log("The request to get user location timed out.");
-                  break;
-              case error.UNKNOWN_ERROR:
-                  console.log("An unknown error occurred.");
-                  break;
+        function (position) {
+          $scope.isGeolocating = false;
+          $scope.currentPosition = position;
+          $scope.storeIt();
+          $scope.$apply();
+        },
+        function (error) {
+          $scope.isGeolocating = false;
+          $scope.$apply();
+          switch (error.code) {
+            case error.PERMISSION_DENIED:
+              console.log("User denied the request for Geolocation.");
+              break;
+            case error.POSITION_UNAVAILABLE:
+              console.log("Location information is unavailable.");
+              break;
+            case error.TIMEOUT:
+              console.log("The request to get user location timed out.");
+              break;
+            case error.UNKNOWN_ERROR:
+              console.log("An unknown error occurred.");
+              break;
           }
-      },
-      {enableHighAccuracy: true}
-
+        },
+        {enableHighAccuracy: true}
       );
     };
 
-    $scope.clean = function() {
+    $scope.clean = function () {
       localStorage.removeItem('places');
       $scope.positions = null;
     };
 
-    $scope.showAll = function() {
+    $scope.showAll = function () {
       $scope.positions = JSON.parse(localStorage.places);
     };
 
-    $scope.dumpCluster = function() {
+    $scope.dumpCluster = function () {
       $scope.positions = $scope.cluster(JSON.parse(localStorage.places));
     };
 
-    $scope.display = function() {
+    $scope.display = function () {
       d3.select("svg").remove();
 
       var w = 400;
       var h = 400;
-      var r = h/2;
+      var r = h / 2;
       var color = d3.scale.category20c();
 
       var theData = $scope.cluster(JSON.parse(localStorage.places));
       var vis = d3.select('#chart')
-                  .append('svg:svg')
-                  .data([theData]).attr("width", w)
-                  .attr("height", h)
-                  .append("svg:g")
-                  .attr("transform", "translate(" + r + "," + r + ")");
+        .append('svg:svg')
+        .data([theData]).attr("width", w)
+        .attr("height", h)
+        .append("svg:g")
+        .attr("transform", "translate(" + r + "," + r + ")");
 
-       var pie = d3.layout.pie().value(function(d){return d.counter;});
+      var pie = d3.layout.pie().value(function (d) {
+        return d.counter;
+      });
 
-                  // declare an arc generator function
-       var arc = d3.svg.arc().outerRadius(r);
+      // declare an arc generator function
+      var arc = d3.svg.arc().outerRadius(r);
 
-       // select paths, use arc generator to draw
-       var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
-       arcs.append("svg:path")
-          .attr("fill", function(d, i){
-              return color(i);
-          })
-          .attr("d", function (d) {
-              // log the result of the arc generator to show how cool it is :)
-              console.log(arc(d));
-              return arc(d);
-          });
+      // select paths, use arc generator to draw
+      var arcs = vis.selectAll("g.slice").data(pie).enter().append("svg:g").attr("class", "slice");
+      arcs.append("svg:path")
+        .attr("fill", function (d, i) {
+          return color(i);
+        })
+        .attr("d", function (d) {
+          // log the result of the arc generator to show how cool it is :)
+          console.log(arc(d));
+          return arc(d);
+        });
 
-       // add the text
-       arcs.append("svg:text")
-            .attr("transform", function(d){
-      		    d.innerRadius = 0;
-      			  d.outerRadius = r;
-              return "translate(" + arc.centroid(d) + ")";})
-            .attr("text-anchor", "middle").text(function(d, i) {
-                return '' + theData[i].latitude + ',' + theData[i].longitude + ',' + theData[i].counter;
-           });
+      // add the text
+      arcs.append("svg:text")
+        .attr("transform", function (d) {
+          d.innerRadius = 0;
+          d.outerRadius = r;
+          return "translate(" + arc.centroid(d) + ")";
+        })
+        .attr("text-anchor", "middle").text(function (d, i) {
+          return '' + theData[i].latitude + ',' + theData[i].longitude + ',' + theData[i].counter;
+        });
     };
 
-  $scope.displayCircles = function() {
- d3.select("svg").remove();
+    $scope.displayCircles = function () {
+      d3.select("svg").remove();
 
       var w = 100;
       var h = 100;
 
-      var theData = [
-        {latitude:50, longitude:7, counter: 14, percentage: 3.6},
-        {latitude:47, longitude:7, counter: 4, percentage: 1.05},
-        {latitude:40, longitude:9, counter: 20, percentage: 5.26}
-      ];
+      var theData = $scope.cluster(JSON.parse(localStorage.places));
 
       var theValues = calculateCirclePosition.calc(theData);
 
 
       var svgContainer = d3.select("#chart").append("svg")
-                                     .attr("width", w)
-                                     .attr("height", h)
-                                     .style("border", "1px solid black");
+        .attr("width", w)
+        .attr("height", h)
+        .style("border", "1px solid black");
 
       var circles = svgContainer.selectAll("circle")
-                                 .data(theValues)
-                                 .enter()
-                                .append("circle");
+        .data(theValues)
+        .enter()
+        .append("circle");
 
       var circleAttributes = circles
-                             .attr("cx", function (d) { return d.cx; })
-                             .attr("cy", function (d) { return d.cy; })
-                             .attr("r",  function (d) { return d.r;});
-  };
+        .attr("cx", function (d) {
+          return d.cx;
+        })
+        .attr("cy", function (d) {
+          return d.cy;
+        })
+        .attr("r", function (d) {
+          return d.r;
+        });
+    };
 
 
-   $scope.cluster = function(positions) {
-    if (positions.length=== 0) {
-    return [];
-    }
-    var result = [];
-    var latitude =0;
-    var longitude =0;
-    positions.forEach(function(position) {
-      latitude = Math.floor(position.coords.latitude);
-      longitude = Math.floor(position.coords.longitude);
-      var foundResultEntry = null;
-      result.forEach(function(resultEntry){
+    $scope.cluster = function (positions) {
+      if (positions.length === 0) {
+        return [];
+      }
+      var result = [];
+      var latitude = 0;
+      var longitude = 0;
+      positions.forEach(function (position) {
+        latitude = Math.floor(position.coords.latitude);
+        longitude = Math.floor(position.coords.longitude);
+        var foundResultEntry = null;
+        result.forEach(function (resultEntry) {
           if (resultEntry.latitude === latitude && resultEntry.longitude === longitude) {
             foundResultEntry = resultEntry;
-            foundResultEntry.counter = foundResultEntry.counter +1;
+            foundResultEntry.counter = foundResultEntry.counter + 1;
           }
+        });
+        if (foundResultEntry === null) {
+          result.push({latitude: latitude, longitude: longitude, counter: 1});
+        }
+        ;
       });
-      if (foundResultEntry === null) {
-        result.push({latitude:latitude, longitude: longitude, counter: 1});
-      };
-    });
-    return result;
+      return result;
     };
 
   });
