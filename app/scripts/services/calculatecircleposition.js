@@ -12,16 +12,20 @@ angular.module('whatamiApp')
     // Service logic
     // ...
     var _calc = function(positions) {
-      return [1];
+
+      if (positions.length === 0) {
+        return [];
+      }
+      var result = [];
+      result.push({cx: 50, xy:50, r:10})
+
+      return result;
     }
-
-
-    var meaningOfLife = 42;
 
     // Public API here
     return {
       calc: function (positions) {
-        return _calc();
+        return _calc(positions);
       }
     };
   });
