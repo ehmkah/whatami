@@ -150,7 +150,7 @@ angular.module('whatamiApp')
         {latitude:40, longitude:9, counter: 20, percentage: 5.26}
       ];
 
-      var theValues = calculateCirclePosition.calc([]);
+      var theValues = calculateCirclePosition.calc(theData);
 
 
       var svgContainer = d3.select("#chart").append("svg")
@@ -159,14 +159,14 @@ angular.module('whatamiApp')
                                      .style("border", "1px solid black");
 
       var circles = svgContainer.selectAll("circle")
-                                 .data(theData)
+                                 .data(theValues)
                                  .enter()
                                 .append("circle");
 
       var circleAttributes = circles
-                             .attr("cx", function (d) { return (d.longitude - 4) * 10; })
-                             .attr("cy", function (d) { return (-1 * ( (d.latitude - 25) * 3.333)) + 100; })
-                             .attr("r",  function (d) { return d.percentage;});
+                             .attr("cx", function (d) { return d.cx; })
+                             .attr("cy", function (d) { return d.cy; })
+                             .attr("r",  function (d) { return d.r;});
   };
 
 
