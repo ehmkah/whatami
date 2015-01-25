@@ -11,16 +11,85 @@ angular.module('whatamiApp')
   .factory('calculateCirclePosition', function () {
     // Service logic
     // ...
-    var _calc = function(positions) {
+    function calculateBoundaries(positions, centerPosition) {
+      var maxX = centerPosition.longitude + 5;
+      var minX = centerPosition.longitude - 5;
+      var minY = centerPosition.latitude + 5;
+      var maxY = centerPosition.latitude - 5;
+
+      positions.forEach(function (position) {
+        while (position.longitude >= maxX || position.longitude <= minX) {
+          maxX = maxX + 5;
+          minX = minY - 5;
+        }
+        while (position.latitude >= maxY || position.latitude <= minY) {
+          maxY = maxY + 5;
+          minY = minY - 5;
+        }
+      });
+
+      return {
+        maxX: maxX,
+        minX: minX,
+        maxY: maxY,
+        minY: minY
+      };
+
+    }
+
+    function calculateCy(position, boundaries) {
+      var result = ((-1 * (position.latitude - boundaries.minY)) * 100 / (boundaries.maxY - boundaries.minY)) + 100;
+      return roundToTwoDigitsBehindComma(result);
+
+    }
+
+    function calculateCx(position, boundaries) {
+      var result = (position.longitude - boundaries.minX) * (100 / (boundaries.maxX - boundaries.minX));
+      return roundToTwoDigitsBehindComma(result);
+    }
+
+    var _calc = function (positions) {
 
       if (positions.length === 0) {
         return [];
       }
       var result = [];
-      result.push({cx: 50, xy:50, r:10})
+      var countMax = 0;
+      var centerPosition = positions[0];
+
+
+      positions.forEach(function (position) {
+        countMax = countMax + position.counter;
+        if (position.counter > centerPosition.counter) {
+          centerPosition = position;
+        }
+        ;
+      });
+
+      var boundaries = calculateBoundaries(positions, centerPosition);
+
+      console.log(boundaries);
+      positions.forEach(function (position) {
+        result.push({
+          cx: calculateCx(position, boundaries),
+          cy: calculateCy(position, boundaries),
+          r: calculateRadius(position.counter, countMax)
+        })
+      });
 
       return result;
+    };
+
+    function roundToTwoDigitsBehindComma(percentage) {
+      return Math.round(percentage * 100).toFixed(2) / 100;
     }
+
+    function calculateRadius(counter, countMax) {
+      var percentage = counter / countMax * 10;
+      var radius = roundToTwoDigitsBehindComma(percentage);
+      return radius;
+    }
+
 
     // Public API here
     return {
