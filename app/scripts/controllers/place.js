@@ -8,7 +8,7 @@
  * Controller of the whatamiApp
  */
 angular.module('whatamiApp')
-  .controller('PlaceCtrl', function ($scope) {
+  .controller('PlaceCtrl', function ($scope, calculateCirclePosition) {
     $scope.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
@@ -148,7 +148,10 @@ angular.module('whatamiApp')
         {latitude:50, longitude:7, counter: 14, percentage: 3.6},
         {latitude:47, longitude:7, counter: 4, percentage: 1.05},
         {latitude:40, longitude:9, counter: 20, percentage: 5.26}
-      ]
+      ];
+
+      var theValues = calculateCirclePosition.calc([]);
+
 
       var svgContainer = d3.select("#chart").append("svg")
                                      .attr("width", w)
