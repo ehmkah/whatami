@@ -48,12 +48,12 @@ angular.module('whatamiApp')
       return roundToTwoDigitsBehindComma(result);
     }
 
-    var _calc = function (positions) {
+    var _calc = function (positions, width, height) {
 
       if (positions.length === 0) {
         return [];
       }
-      var result = [];
+      var domainValues = [];
       var countMax = 0;
       var centerPosition = positions[0];
 
@@ -70,12 +70,18 @@ angular.module('whatamiApp')
 
       console.log(boundaries);
       positions.forEach(function (position) {
-        result.push({
+        domainValues.push({
           cx: calculateCx(position, boundaries),
           cy: calculateCy(position, boundaries),
           r: calculateRadius(position.counter, countMax)
         })
       });
+
+      var result = {
+        domainData: domainValues,
+        boundaries: boundaries
+      };
+
 
       return result;
     };
