@@ -184,7 +184,6 @@ angular.module('whatamiApp')
         });
     };
 
-
     $scope.cluster = function (positions) {
       if (positions.length === 0) {
         return [];
