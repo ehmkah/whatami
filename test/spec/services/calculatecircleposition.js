@@ -54,7 +54,7 @@ describe('Service: calculateCirclePosition', function () {
         minX: 4
       }
     };
-    expect(calculateCirclePosition.calc(theData)).toEqual(expectedData)
+    expect(calculateCirclePosition.calc(theData)).toEqual(expectedData);
   });
 
 });

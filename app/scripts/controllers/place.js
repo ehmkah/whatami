@@ -38,8 +38,8 @@ angular.module('whatamiApp')
     };
 
     $scope.createItem = function (position) {
-      var result = new Object();
-      result.coords = new Object();
+      var result = {};
+      result.coords = {};
       result.coords.latitude = position.coords.latitude;
       result.coords.longitude = position.coords.longitude;
       result.timestamp = position.timestamp;
@@ -143,8 +143,7 @@ angular.module('whatamiApp')
     $scope.displayCircles = function () {
       d3.select("svg").remove();
 
-      var w = 100;
-      var h = 100;
+      var w = 300;
 
       var theData = $scope.cluster(JSON.parse(localStorage.places));
 
@@ -153,23 +152,35 @@ angular.module('whatamiApp')
 
       var svgContainer = d3.select("#chart").append("svg")
         .attr("width", w)
-        .attr("height", h)
+        .attr("height", w)
         .style("border", "1px solid black");
 
       var circles = svgContainer.selectAll("circle")
-        .data(theValues)
+        .data(theValues.domainData)
         .enter()
         .append("circle");
 
-      var circleAttributes = circles
+
+      var scaleAxes = d3.scale
+        .linear()
+        .range([0, w])
+        .domain(
+        [0, 100]);
+
+      var scaleR = d3.scale
+        .linear()
+        .range([0, w / 10])
+        .domain([0, 10]);
+
+      circles
         .attr("cx", function (d) {
-          return d.cx;
+          return scaleAxes(d.cx);
         })
         .attr("cy", function (d) {
-          return d.cy;
+          return scaleAxes(d.cy);
         })
         .attr("r", function (d) {
-          return d.r;
+          return scaleR(d.r);
         });
     };
 
@@ -194,7 +205,6 @@ angular.module('whatamiApp')
         if (foundResultEntry === null) {
           result.push({latitude: latitude, longitude: longitude, counter: 1});
         }
-        ;
       });
       return result;
     };
