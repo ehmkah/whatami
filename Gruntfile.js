@@ -236,8 +236,20 @@ module.exports = function (grunt) {
     usemin: {
       html: ['<%= yeoman.dist %>/{,*/}*.html'],
       css: ['<%= yeoman.dist %>/styles/{,*/}*.css'],
+      manifest: ['<%= yeoman.dist %>/manifest.appcache'],
       options: {
-        assetsDirs: ['<%= yeoman.dist %>','<%= yeoman.dist %>/images']
+        assetsDirs: ['<%= yeoman.dist %>','<%= yeoman.dist %>/images'],
+        patterns: {
+          manifest: [
+            [/(scripts\/vendor\.js)/, 'Replacing reference to vendor.js'],
+            [/(scripts\/scripts\.js)/, 'Replacing reference to vendor.js'],
+            [/(scripts\/oldieshim\.js)/, 'Replacing reference to vendor.js'],
+            [/(styles\/vendor\.css)/, 'Replacing reference to vendor.css'],
+            [/(styles\/main\.css)/, 'Replacing reference to main.css'],
+            [/(images\/red-dot\.png)/, 'Replacing reference to main.css'],
+            [/(images\/green-dot\.png)/, 'Replacing reference to main.css']
+          ]
+        }
       }
     },
 
@@ -378,6 +390,32 @@ module.exports = function (grunt) {
       ]
     },
 
+    manifest: {
+      generate: {
+        options: {
+          basePath: '<%= yeoman.dist %>',
+          cache: [
+            'scripts/vendor.js',
+            'scripts/scripts.js',
+            'scripts/oldieshim.js',
+            'styles/main.css',
+            'images/green-dot.png',
+            'images/red-dot.png',
+          ],
+          network: ['*', 'http://*', 'https://*', '/listpdf'],
+          preferOnline: true,
+          verbose: true,
+          timestamp: true,
+          master: ['index.html']
+        },
+        src: [
+          'views/*.html',
+          'fonts/*.*'
+        ],
+        dest: '<%= yeoman.dist %>/manifest.appcache'
+      }
+    },
+
     // Test settings
     karma: {
       unit: {
@@ -429,6 +467,7 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'filerev',
+    'manifest',
     'usemin',
     'htmlmin'
   ]);

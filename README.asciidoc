@@ -7,3 +7,8 @@ Yes. Whatami allows you to track each day where you wake up. You can visualize y
 You can see a running demo here http://www.m-krausse.de/whatami
 
 I am always open for any suggestions, feature requests and bug reports.
+
+
+
+install
+npm install grunt-manifest --save-dev
