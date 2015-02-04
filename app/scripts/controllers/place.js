@@ -76,7 +76,7 @@ angular.module('whatamiApp')
               break;
           }
         },
-        {enableHighAccuracy: true}
+        {enableHighAccuracy: true, maximumAge: 3600000}
       );
     };
 
