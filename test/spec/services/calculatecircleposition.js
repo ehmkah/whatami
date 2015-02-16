@@ -57,4 +57,26 @@ describe('Service: calculateCirclePosition', function () {
     expect(calculateCirclePosition.calc(theData)).toEqual(expectedData);
   });
 
+
+  it('bug with three cluster', function () {
+    var theData = [
+      {'latitude':46,'longitude':7,'counter':18},
+      {'latitude':47,'longitude':7,'counter':2},
+      {'latitude':52,'longitude':13,'counter':4}
+    ];
+    var expectedData = {
+      domainData: [
+        {cx: 50, cy: 50, r: 7.5},
+        {cx: 50, cy: 45, r: 0.83},
+        {cx: 80, cy: 20, r: 1.67}],
+      boundaries: {
+        maxY: 56,
+        minY: 36,
+        maxX: 17,
+        minX: -3
+      } };
+
+      expect(calculateCirclePosition.calc(theData)).toEqual(expectedData);
+
+  });
 });

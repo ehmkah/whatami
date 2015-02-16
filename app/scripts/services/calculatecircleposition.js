@@ -12,27 +12,27 @@ angular.module('whatamiApp')
     // Service logic
     // ...
     function calculateBoundaries(positions, centerPosition) {
-      var maxX = centerPosition.longitude + 5;
-      var minX = centerPosition.longitude - 5;
-      var minY = centerPosition.latitude + 5;
-      var maxY = centerPosition.latitude - 5;
+      var maxLongitude = centerPosition.longitude + 5;
+      var minLongitude = centerPosition.longitude - 5;
+      var minLatitude = centerPosition.latitude - 5;
+      var maxLatitude = centerPosition.latitude + 5;
 
       positions.forEach(function (position) {
-        while (position.longitude >= maxX || position.longitude <= minX) {
-          maxX = maxX + 5;
-          minX = minY - 5;
+       while (position.longitude >= maxLongitude || position.longitude <= minLongitude) {
+          maxLongitude = maxLongitude + 5;
+          minLongitude = minLongitude - 5;
         }
-        while (position.latitude >= maxY || position.latitude <= minY) {
-          maxY = maxY + 5;
-          minY = minY - 5;
+        while (position.latitude >= maxLatitude || position.latitude <= minLatitude) {
+          maxLatitude = maxLatitude + 5;
+          minLatitude = minLatitude - 5;
         }
       });
 
       return {
-        maxX: maxX,
-        minX: minX,
-        maxY: maxY,
-        minY: minY
+        maxX: maxLongitude,
+        minX: minLongitude,
+        maxY: maxLatitude,
+        minY: minLatitude
       };
 
     }
@@ -68,7 +68,6 @@ angular.module('whatamiApp')
 
       var boundaries = calculateBoundaries(positions, centerPosition);
 
-      console.log(boundaries);
       positions.forEach(function (position) {
         domainValues.push({
           cx: calculateCx(position, boundaries),
